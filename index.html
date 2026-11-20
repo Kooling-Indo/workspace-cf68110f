@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ATMI SPMB Elite Mock — 1000 Soal Tes Tertulis</title>
+<meta name="description" content="Simulasi tes tertulis SPMB Politeknik ATMI Surakarta: 1000 soal T1-T4, timer, pembahasan, dan AI coach.">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <div class="mark">A</div>
+      <div>ATMI Elite Mock<small>SPMB · Tes Tertulis</small></div>
+    </div>
+    <nav class="nav" id="nav">
+      <button data-go="home" class="on">Beranda</button>
+      <button data-go="setup">Mulai Tes</button>
+      <button data-go="practice">Latihan</button>
+      <button data-go="history">Riwayat</button>
+      <button data-go="ai">AI Coach</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="app">
+
+  <!-- ================= HOME ================= -->
+  <section id="v-home">
+    <div class="hero">
+      <div class="eyebrow" style="color:#ffd766">Politeknik ATMI Surakarta · Jalur Tes Tertulis</div>
+      <h1>Siapkan diri untuk 1000 soal setara seleksi kampus teknik.</h1>
+      <p>T1 Tes Capability · T2 Kemampuan Dasar Teknik · T3 Tes Potensi Akademik · T4 Bahasa Inggris.
+         Timer resmi, penilaian per subtes, pembahasan tiap soal, plus AI coach yang menjelaskan ulang dengan bahasamu sendiri.</p>
+      <div class="chips">
+        <span class="chip">400 soal figural</span>
+        <span class="chip">500 soal hitung &amp; logika</span>
+        <span class="chip">100 soal English</span>
+        <span class="chip">AI: LongCat / Pollinations / Ollama lokal</span>
+      </div>
+      <div class="cta">
+        <button class="btn btn-p" data-go="setup">Mulai mock test</button>
+        <button class="btn btn-g" data-do="resume" id="btnResume" style="display:none">Lanjutkan sesi tersimpan</button>
+      </div>
+    </div>
+
+    <div class="grid g4" style="margin-bottom:22px">
+      <div class="stat"><b class="mono" id="sTotal">1000</b><span>Total soal</span></div>
+      <div class="stat"><b class="mono" id="sAttempt">0</b><span>Tes selesai</span></div>
+      <div class="stat"><b class="mono" id="sBest">—</b><span>Skor terbaik</span></div>
+      <div class="stat"><b class="mono" id="sTime">—</b><span>Waktu tercepat</span></div>
+    </div>
+
+    <div class="grid g3" id="modeGrid">
+      <button class="mode" data-mode="quick">
+        <span class="tag">60 menit</span>
+        <h3>Mock Cepat</h3>
+        <p>100 soal representatif, 25 per subtes. Paling pas untuk cek level awal.</p>
+        <div class="meta">Timer global · pembahasan lengkap</div>
+      </button>
+      <button class="mode" data-mode="full">
+        <span class="tag">4 sesi</span>
+        <h3>Simulasi Resmi</h3>
+        <p>Struktur sama dengan tes asli: T1 40 menit, lalu T2, T3, T4 berurutan tanpa jeda.</p>
+        <div class="meta">200 soal · timer per subtes</div>
+      </button>
+      <button class="mode" data-mode="elite">
+        <span class="tag">Hardcore</span>
+        <h3>Elite 1000</h3>
+        <p>Seluruh bank soal dalam satu maraton. Untuk yang menargetkan peringkat teratas.</p>
+        <div class="meta">1000 soal · 3 jam</div>
+      </button>
+    </div>
+
+    <div class="card pad" style="margin-top:18px">
+      <h3 style="font-size:16px;margin-bottom:4px">Struktur tes yang disimulasikan</h3>
+      <p class="muted" style="margin:0 0 10px;font-size:13.5px">Mengikuti panduan resmi SPMB ATMI: T1 empat subbagian, lalu T2, T3, dan T4.</p>
+      <div id="secList"></div>
+    </div>
+  </section>
+
+  <!-- ================= SETUP ================= -->
+  <section id="v-setup" class="hide"></section>
+
+  <!-- ================= EXAM ================= -->
+  <section id="v-exam" class="hide">
+    <div class="exambar">
+      <div class="wrap">
+        <span class="pill" id="exSec">T1</span>
+        <span class="timer mono" id="exTimer">00:00</span>
+        <div class="prog"><i id="exProg"></i></div>
+        <span class="muted mono" id="exCount" style="font-size:13px">0/0</span>
+        <button class="btn btn-g btn-s" data-do="flag">Tandai</button>
+        <button class="btn btn-n btn-s" data-do="submit">Selesai</button>
+      </div>
+    </div>
+    <div class="exam">
+      <div id="qHost"></div>
+      <aside class="sidecard">
+        <div class="card pad">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <b style="font-size:13.5px">Navigasi soal</b>
+            <span class="muted" style="font-size:12px" id="navLegend">terjawab</span>
+          </div>
+          <div class="navpad" id="navpad"></div>
+          <button class="btn btn-g btn-s" style="width:100%;margin-top:12px" data-do="endSection">Akhiri subtes ini</button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= RESULT ================= -->
+  <section id="v-result" class="hide"></section>
+
+  <!-- ================= PRACTICE ================= -->
+  <section id="v-practice" class="hide"></section>
+
+  <!-- ================= HISTORY ================= -->
+  <section id="v-history" class="hide"></section>
+
+  <!-- ================= AI ================= -->
+  <section id="v-ai" class="hide"></section>
+
+  <div class="foot">ATMI SPMB Elite Mock · dibuat untuk latihan mandiri · soal latihan, bukan soal resmi panitia.</div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="bank-fig.js"></script>
+<script src="bank-num.js"></script>
+<script src="bank-en.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
